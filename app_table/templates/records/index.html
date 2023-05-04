@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load cache %}
+
+{% block title%} 
+  <title>Это главная страница проекта Yatube</title>
+{% endblock%}
+
+{% cache 20 index_page %}
+{% block content%}
+  <main> 
+    <div class="container py-5">     
+      <h1>Последние обновления на сайте</h1>
+      <article>
+        {% for post in page_obj %}
+          <ul>
+          <li>
+            Дата: {{ post.date|date:"d E Y" }}
+          </li>
+          <li>
+            Название: {{ post.name.get_full_name }}
+          </li>
+          <li>
+            Количество: {{ post.quantity }}
+          </li>
+          <li>
+            Дистанция: {{ post.distance }}
+          </li>
+          </ul>
+
+          {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
+      </article>
+      {% comment %} {% include 'posts/includes/paginator.html' %} {% endcomment %}
+    </div>  
+  </main>
+{% endblock%}
+{% endcache %}
